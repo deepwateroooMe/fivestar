@@ -1,4 +1,4 @@
-% Created 2023-05-08 Mon 15:21
+% Created 2023-05-08 Mon 17:06
 % Intended LaTeX compiler: pdflatex
 \documentclass[9pt, b5paper]{article}
 \usepackage{xeCJK}
@@ -41,14 +41,14 @@
 本卡五星麻将 基于ET框架 请先能正常运行ET的demo  
 
 \section{介绍：}
-\label{sec:org9777ba5}
+\label{sec:org8f789b0}
 \begin{itemize}
 \item 一款麻将游戏,基于ET框架开发,基本和市面上的,房卡麻将一样,功能基本实现 有匹配模式,房卡模式 录像功能 亲友圈
 \item 接入了百度地图sdk,微信登陆,分享和支付
 \end{itemize}
 
 \section{运行：}
-\label{sec:org64d73aa}
+\label{sec:org47dc06b}
 \begin{itemize}
 \item 下载项目直接打开Unity工程,进入Init场景。因为服务器到期，无法登录到服务器，可以改为本地服务器来试运行。但因为项目中某些地方可能还是与服务器交互，所以构建出来的ET.exe 无法本地多客户端匹配，但可以使用加入房间模式试玩，以理解源码为主要指标。
 \item 注：ETModel.Init.isNetworkBundle 这个字段控制是否 使用本地资源 还是使用网络资源
@@ -57,7 +57,7 @@
 \end{itemize}
 
 \section{本地启动}
-\label{sec:org1e0f300}
+\label{sec:org444b250}
 \begin{itemize}
 \item 服务器端要重新生成一下解决方案
 \item 要本地开启Monodb服务器
@@ -76,5 +76,11 @@
 \begin{itemize}
 \item 以前，这种游戏是想都不用想，超出难度，但现在因为可以使用现有的服务器也可以热更新的 ET 框架，这些想对复杂的游戏都变得简单。
 \item 只是好玩儿的游戏，斗地主、跑得快，拖拉机，麻将等，好玩儿的游戏都被 ET 写完了，但小弱弱们写什么游戏练手好呢？【活宝妹就是一定要嫁给亲爱的表哥！！！】
+\item 感觉对ET 的这个框架现在吃得还比较透彻了，但是具体游戏里，【可能主要是因为今天，我所读的源码，只限于几年前的这个卡五星的游戏源码】，所以部分源码仍然还没能跟上。比如网关服与地图服游戏服的申请连接等，现在源码里还没能跟上。但感觉从ET 7.2 里应该是能够狠容易找到的。这个现卡五星几年前的框架源码还是相对落后的。截个图，作个记号在这里
 \end{itemize}
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{./pic/readme_20230508_172732.png}
+\end{center}
 \end{document}

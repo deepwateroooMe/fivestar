@@ -13,7 +13,7 @@ namespace ETHotfix {
     
     [ObjectSystem]
     public class KCPMgrComponentAwakeSystem : AwakeSystem<KCPUseManage> {
-        public override void Awake(KCPUseManage self) {
+        public override void Awake(KCPUseManage self) { // 特殊组件生成体系的：Awake() 的特殊方法：它要自己再添加两小组件 
             self.AddComponent<KCPStateManage>();
             self.AddComponent<KCPLocalizationDispose>();
             self.Awake(); 
@@ -39,7 +39,7 @@ namespace ETHotfix {
         
         // 登陆并连接
         public async void LoginAndConnect(int loginType, string dataStr,bool isReconnection = false) {
-            _UpLoginType = loginType;
+            _UpLoginType = loginType; // 微信登录；这里好像没有作明确区分，刚才不是要调微信SDK 才对吗？微信的那个SDK 没有好好接，留了个接口而已
             _UpLoginDataStr = dataStr;
             if (_mStateManage.pKCPNetWorkState == KCPNetWorkState.BebeingConnect|| _mStateManage.pKCPNetWorkState == KCPNetWorkState.Connect) {
                 Log.Warning("正在连接 请不要重复连接 或已经成功连接");
@@ -59,7 +59,7 @@ namespace ETHotfix {
                 ETModel.Session session = ETModel.Game.Scene.GetComponent<NetOuterComponent>().Create(GameVersionsConfigMgr.Ins.ServerAddress);
                 // 创建一个ETHotfix层的Session, ETHotfix的Session会通过ETModel层的Session发送消息。
                 // 这里把ETModel 理解为更为底层，热更新层ETHotfix 是凌驾于ETModel 底层之上。热更新层的消息，还是要通过底层框架架构发出去的，只是消息体的定义与内容等更为上层
-                Session realmSession = ComponentFactory.Create<Session, ETModel.Session>(session);
+                Session realmSession = ComponentFactory.Create<Session, ETModel.Session>(session); // 【热更新层】的会话框：没开明白，为什么说它是热更新层的会话框？
                 realmSession.session.GetComponent<SessionCallbackComponent>().DisposeCallback += RealmSessionDisposeCallback;
                 
                 // 登陆验证服务器
@@ -80,18 +80,16 @@ namespace ETHotfix {
                     return;
                 }
                 
-                // Debug.Log(TAG, ": (PlayerPrefs == null): " + (PlayerPrefs == null));
-                Debug.LogWarningFormat(TAG, $": r2CLogin.LoginVoucher:", r2CLogin.LoginVoucher);
                 PlayerPrefs.SetString(GlobalConstant.LoginVoucher, r2CLogin.LoginVoucher);// 记录登陆凭证
-                // 登陆网关服务器
-                G2C_GateLogin g2CLoginGate =await ConnectGate(r2CLogin.Address, r2CLogin.Key, loginType);
+                // 登陆网关服务器：框架中接下来，客户端基本只与分配给它的网关服交互，所以网关服承上启下，负责帮助各连接的客户端，与地图服，游戏服等中转消息交互
+                G2C_GateLogin g2CLoginGate = await ConnectGate(r2CLogin.Address, r2CLogin.Key, loginType);
                 if (!string.IsNullOrEmpty(g2CLoginGate.Message)) {
                     UIComponent.GetUiView<PopUpHintPanelComponent>().ShowOptionWindow(g2CLoginGate.Message, null, PopOptionType.Single);
                     UIComponent.GetUiView<LoadingIconPanelComponent>().Hide();// 隐藏圈圈
                     _mStateManage.pKCPNetWorkState = KCPNetWorkState.Disconnectl;// 状态改为断开连接
                     return;
                 }
-                // 发起连接成功事件
+                // 发起连接成功事件：这里就是，通知订阅者，连接成功啦
                 connectSuccesAction(g2CLoginGate);
             }
             catch (Exception e) {
